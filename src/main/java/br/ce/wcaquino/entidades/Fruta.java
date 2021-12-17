@@ -4,7 +4,7 @@ public class Fruta {
 	
 	private String nome;
 	
-	private int quantidade;
+	private int quantidadeVenda;
 	
 	private Double preco;
 	
@@ -12,10 +12,10 @@ public class Fruta {
 		
 	}
 	
-	public Fruta(String nome, int quantidade, Double preco) {
+	public Fruta(String nome, int quantidadeVenda, Double preco) {
 		super();
 		this.nome = nome;
-		this.quantidade = quantidade;
+		this.quantidadeVenda = quantidadeVenda;
 		this.preco = preco;
 	}
 
@@ -27,12 +27,12 @@ public class Fruta {
 		this.nome = nome;
 	}
 
-	public int getQuantidade() {
-		return quantidade;
+	public int getQuantidadeVenda() {
+		return quantidadeVenda;
 	}
 
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
+	public void setQuantidadeVenda(int quantidadeVenda) {
+		this.quantidadeVenda = quantidadeVenda;
 	}
 
 	public Double getPreco() {

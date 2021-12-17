@@ -1,26 +1,35 @@
 package br.ce.wcaquino.entidades;
 
+import java.util.List;
+
 public class Venda {
 	
-	private Fruta fruta;
+	private List<Fruta> frutas;
 	
 	private Cliente cliente;
 	
 	private Double precoVenda;
-	
-	public Venda(Fruta fruta, Cliente cliente, Double precoVenda) {
-		this.fruta = fruta;
+
+	public Venda(List<Fruta> frutas, Cliente cliente, Double precoVenda) {
+		super();
+		this.frutas = frutas;
 		this.cliente = cliente;
 		this.precoVenda = precoVenda;
 	}
 
-	public Fruta getFruta() {
-		return fruta;
+	public Venda() {
+		
+	}
+	
+	public List<Fruta> getFrutas() {
+		return frutas;
 	}
 
-	public void setFruta(Fruta fruta) {
-		this.fruta = fruta;
+
+	public void setFrutas(List<Fruta> frutas) {
+		this.frutas = frutas;
 	}
+
 
 	public Cliente getCliente() {
 		return cliente;
