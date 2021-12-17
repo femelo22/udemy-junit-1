@@ -1,4 +1,4 @@
-package br.ce.wcaquino.servicos;
+package br.ce.wcaquino.servicos.recursos;
 
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -18,6 +18,9 @@ public class OrdemTest {
 		Assert.assertEquals(1, contador);
 	}
 	
+	/**
+	 * O "teste geral" está organizando a ORDEM que os testes irao rodar
+	 */
 	
 	@Test
 	public void testGeral() {
