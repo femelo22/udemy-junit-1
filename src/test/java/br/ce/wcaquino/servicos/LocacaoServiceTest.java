@@ -14,7 +14,9 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -223,10 +225,11 @@ public class LocacaoServiceTest {
 	}
 	
 	
-	//@Test
+	@Test
 	public void deveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException {
-		Usuario usuario = new Usuario("usuario 1");
+		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 		
+		Usuario usuario = new Usuario("usuario 1");
 		Filme f1 = new Filme("filme 1", 1, 4.0);
 		
 		filmes.add(f1);
