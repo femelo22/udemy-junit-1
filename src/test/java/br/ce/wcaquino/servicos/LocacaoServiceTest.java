@@ -49,6 +49,8 @@ public class LocacaoServiceTest {
 
 	@Test
 	public void deveAlugarFilme() throws Exception {
+		Assume.assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+		
 		// cenario
 		Usuario usuario1 = new Usuario("Usuário 1");
 		Filme filme1 = new Filme("Matrix", 1, 5.00);
@@ -61,7 +63,7 @@ public class LocacaoServiceTest {
 		// verificação
 		error.checkThat(locacao.getValor(), is(5.0));
 		error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-		error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+		error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(false));
 	}
 	
 	
