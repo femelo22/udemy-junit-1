@@ -42,7 +42,7 @@ public class LocacaoServiceTest {
 	}
 
 	@Test
-	public void testeLocacao() throws Exception {
+	public void deveAlugarFilme() throws Exception {
 		// cenario
 		Usuario usuario1 = new Usuario("Usuário 1");
 		Filme filme1 = new Filme("Matrix", 1, 5.00);
@@ -71,7 +71,7 @@ public class LocacaoServiceTest {
 	
 	//FORMA ELEGANTE
 	@Test(expected = FilmeSemEstoqueException.class)
-	public void testeLocacao_filmeSemEstoque() throws Exception {
+	public void naoDeveAlugarFilmeSemEstoque() throws Exception {
 		
 		Usuario usuario1 = new Usuario("Usuário 2");
 		Filme filme1 = new Filme("Mad Max", 0, 5.00);
@@ -84,7 +84,7 @@ public class LocacaoServiceTest {
 	
 	//FORMA ROBUSTA
 	@Test
-	public void testeLocacao_UsuarioVazio() throws FilmeSemEstoqueException {
+	public void naoDeveAlugarFilmeSemUsuario() throws FilmeSemEstoqueException {
 		
 		Filme filme1 = new Filme("Mad Max", 1, 5.00);
 		
@@ -103,7 +103,7 @@ public class LocacaoServiceTest {
 	
 	//FORMA NOVA
 	@Test
-	public void testeLocacao_FilmeVazio() throws FilmeSemEstoqueException, LocadoraException {
+	public void naoDeveAlugarFilmeSemFilme() throws FilmeSemEstoqueException, LocadoraException {
 		Usuario usuario1 = new Usuario("Usuário 2");
 		
 		exception.expect(LocadoraException.class);
@@ -113,8 +113,8 @@ public class LocacaoServiceTest {
 	}
 	
 	
-	@Test
-	public void testeLocacao_filmeSemEstoque_2() {
+/*	@Test
+	public void naoDeveAlugarFilmeSemEstoque2() {
 		
 		Usuario usuario1 = new Usuario("Usuário 2");
 		Filme filme1 = new Filme("Mad Max", 0, 5.00);
@@ -126,6 +126,96 @@ public class LocacaoServiceTest {
 		} catch (Exception e) {
 			assertThat(e.getMessage(), is("Filme sem estoque"));
 		}
+	}
+*/
+	
+	@Test
+	public void deveDarDescontoDe25PorCentoNoTerceiroFilme() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Usuario usuario = new Usuario("Usuario");
+		Filme f1 = new Filme("Boneco do Mal", 10, 4.0);
+		Filme f2 = new Filme("Chuck", 10, 4.0);
+		Filme f3 = new Filme("Hora do panico", 10, 4.0);
+		
+		filmes.add(f1);
+		filmes.add(f2);
+		filmes.add(f3);
+		
+		//acao
+		Locacao resultado = service.alugarFilme(usuario, filmes);
+		
+		//verificacao
+		assertThat(resultado.getValor(), is(11.0));
+	}
+	
+	@Test
+	public void deveDarDescontoDe50PorCentoNoQuartoFilme() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Usuario usuario = new Usuario("Usuario");
+		Filme f1 = new Filme("Boneco do Mal", 10, 4.0);
+		Filme f2 = new Filme("Chuck", 10, 4.0);
+		Filme f3 = new Filme("Hora do panico", 10, 4.0);
+		Filme f4 = new Filme("Json vs Fred", 10, 4.0);
+		
+		filmes.add(f1);
+		filmes.add(f2);
+		filmes.add(f3);
+		filmes.add(f4);
+		
+		//acao
+		Locacao resultado = service.alugarFilme(usuario, filmes);
+		
+		//verificacao
+		assertThat(resultado.getValor(), is(13.0));
+	}
+	
+	
+	@Test
+	public void deveDarDescontoDe75PorCentoNoQuintoFilme() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Usuario usuario = new Usuario("Usuario");
+		Filme f1 = new Filme("Boneco do Mal", 10, 4.0);
+		Filme f2 = new Filme("Chuck", 10, 4.0);
+		Filme f3 = new Filme("Hora do panico", 10, 4.0);
+		Filme f4 = new Filme("Json vs Fred", 10, 4.0);
+		Filme f5 = new Filme("A entidade 3", 10, 4.0);
+		
+		filmes.add(f1);
+		filmes.add(f2);
+		filmes.add(f3);
+		filmes.add(f4);
+		filmes.add(f5);
+		
+		//acao
+		Locacao resultado = service.alugarFilme(usuario, filmes);
+		
+		//verificacao
+		assertThat(resultado.getValor(), is(14.0));
+	}
+	
+	@Test
+	public void deveDarDescontoDe0PorCentoNoSextoFilme() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Usuario usuario = new Usuario("Usuario");
+		Filme f1 = new Filme("Boneco do Mal", 10, 4.0);
+		Filme f2 = new Filme("Chuck", 10, 4.0);
+		Filme f3 = new Filme("Hora do panico", 10, 4.0);
+		Filme f4 = new Filme("Json vs Fred", 10, 4.0);
+		Filme f5 = new Filme("A entidade 3", 10, 4.0);
+		Filme f6 = new Filme("A morte do demonio", 10, 4.0);
+		
+		filmes.add(f1);
+		filmes.add(f2);
+		filmes.add(f3);
+		filmes.add(f4);
+		filmes.add(f5);
+		filmes.add(f6);
+		
+		//acao
+		Locacao resultado = service.alugarFilme(usuario, filmes);
+		
+		//verificacao
+		assertThat(resultado.getValor(), is(14.0));
 	}
 	
 
