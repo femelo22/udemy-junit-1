@@ -1,4 +1,4 @@
-package br.ce.wcaquino.servicos;
+package br.ce.wcaquino.servicos.exercicios;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.ce.wcaquino.exceptions.NaoPodeDividirPorZeroException;
+import br.ce.wcaquino.servicos.Calculadora;
 
 
 public class CalculadoraTest {
@@ -57,6 +58,7 @@ public class CalculadoraTest {
 		//verificao
 		assertEquals(2, resultado);
 	}
+
 	
 	@Test(expected = NaoPodeDividirPorZeroException.class)
 	public void test_DeveLancarExcecaoDividirPorZero() throws NaoPodeDividirPorZeroException {
