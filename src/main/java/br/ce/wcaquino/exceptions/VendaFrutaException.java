@@ -1,10 +1,10 @@
 package br.ce.wcaquino.exceptions;
 
-public class VendaSemClienteException extends Exception {
+public class VendaFrutaException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	
-	public VendaSemClienteException(String msg) {
+	public VendaFrutaException(String msg) {
 		super(msg);
 	}
 	

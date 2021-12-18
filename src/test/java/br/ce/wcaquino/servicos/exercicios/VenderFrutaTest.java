@@ -14,7 +14,7 @@ import org.junit.rules.ExpectedException;
 import br.ce.wcaquino.entidades.Cliente;
 import br.ce.wcaquino.entidades.Fruta;
 import br.ce.wcaquino.entidades.Venda;
-import br.ce.wcaquino.exceptions.VendaSemClienteException;
+import br.ce.wcaquino.exceptions.VendaFrutaException;
 import br.ce.wcaquino.servicos.VendaService;
 
 public class VenderFrutaTest {
@@ -32,7 +32,7 @@ public class VenderFrutaTest {
 	}
 	
 	@Test
-	public void test_deveVenderFruta() throws VendaSemClienteException {
+	public void test_deveVenderFruta() throws VendaFrutaException {
 		
 		Fruta maca = new Fruta("maça", 2, 1.0);
 		Fruta manga = new Fruta("manga", 3, 2.0);
@@ -49,14 +49,26 @@ public class VenderFrutaTest {
 	}
 	
 	@Test
-	public void test_deveTerClienteNaVenda() throws VendaSemClienteException {
+	public void test_deveTerClienteNaVenda() throws VendaFrutaException {
 		Fruta mamao = new Fruta("mamao", 1, 4.0);
 		frutas.add(mamao);
 		
-		exception.expect(VendaSemClienteException.class);
+		exception.expect(VendaFrutaException.class);
 		exception.expectMessage("Venda deve ter cliente");
 		
-		Venda venda = service.venderFruta(frutas, null);
+		service.venderFruta(frutas, null);
 	}
+	
+	@Test
+	public void test_deveTerFrutaNaVenda() throws VendaFrutaException {
+		Cliente cliente = new Cliente("Fernando");
+		
+		exception.expect(VendaFrutaException.class);
+		exception.expectMessage("Venda deve ter fruta(s)");
+		
+		service.venderFruta(null, cliente);
+	}
+	
+	
 
 }
