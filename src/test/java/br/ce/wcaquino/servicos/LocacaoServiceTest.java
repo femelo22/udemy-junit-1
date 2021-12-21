@@ -61,7 +61,7 @@ public class LocacaoServiceTest {
 		Locacao locacao = service.alugarFilme(usuario1, filmes);
 
 		// verificação
-		error.checkThat(locacao.getValor(), is(5.0));
+		error.checkThat(locacao.getValor(), is(4.0));
 		error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 		//error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
 		//error.checkThat(locacao.getDataRetorno(), ehHojeComDiferencaDeDias(2));
@@ -83,7 +83,7 @@ public class LocacaoServiceTest {
 	public void naoDeveAlugarFilmeSemEstoque() throws Exception {
 		
 		Usuario usuario1 = umUsuario().agora();
-		Filme filme1 = umFilme().agora();
+		Filme filme1 = umFilme().semEstoque().agora();
 		
 		filmes.add(filme1);
 		
