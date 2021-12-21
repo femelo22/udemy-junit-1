@@ -67,8 +67,8 @@ public class LocacaoServiceTest {
 		// verificação
 		error.checkThat(locacao.getValor(), is(5.0));
 		error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-		error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(false));
-		error.checkThat(locacao.getDataRetorno(), ehHojeComDiferencaDeDias(2));
+		//error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+		//error.checkThat(locacao.getDataRetorno(), ehHojeComDiferencaDeDias(2));
 	}
 	
 	
