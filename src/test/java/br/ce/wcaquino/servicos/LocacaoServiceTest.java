@@ -1,24 +1,20 @@
 package br.ce.wcaquino.servicos;
 
+import static br.ce.wcaquino.servicos.builders.FilmeBuilder.umFilme;
+import static br.ce.wcaquino.servicos.builders.UsuarioBuilder.umUsuario;
 import static br.ce.wcaquino.servicos.matchers.MatchersProprios.caiEm;
-import static br.ce.wcaquino.servicos.matchers.MatchersProprios.ehHojeComDiferencaDeDias;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
-import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
-import static java.util.Calendar.MONDAY;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -29,8 +25,7 @@ import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
-import br.ce.wcaquino.servicos.matchers.DiaSemanaMatcher;
-import br.ce.wcaquino.servicos.matchers.MatchersProprios;
+import br.ce.wcaquino.servicos.builders.FilmeBuilder;
 import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTest {
@@ -56,8 +51,9 @@ public class LocacaoServiceTest {
 		Assume.assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 		
 		// cenario
-		Usuario usuario1 = new Usuario("Usuário 1");
-		Filme filme1 = new Filme("Matrix", 1, 5.00);
+		Usuario usuario1 = umUsuario().agora();
+		
+		Filme filme1 = umFilme().agora();
 		
 		filmes.add(filme1);
 
@@ -86,8 +82,8 @@ public class LocacaoServiceTest {
 	@Test(expected = FilmeSemEstoqueException.class)
 	public void naoDeveAlugarFilmeSemEstoque() throws Exception {
 		
-		Usuario usuario1 = new Usuario("Usuário 2");
-		Filme filme1 = new Filme("Mad Max", 0, 5.00);
+		Usuario usuario1 = umUsuario().agora();
+		Filme filme1 = umFilme().agora();
 		
 		filmes.add(filme1);
 		
@@ -99,7 +95,7 @@ public class LocacaoServiceTest {
 	@Test
 	public void naoDeveAlugarFilmeSemUsuario() throws FilmeSemEstoqueException {
 		
-		Filme filme1 = new Filme("Mad Max", 1, 5.00);
+		Filme filme1 = umFilme().agora();
 		
 		filmes.add(filme1);
 		
@@ -117,7 +113,7 @@ public class LocacaoServiceTest {
 	//FORMA NOVA
 	@Test
 	public void naoDeveAlugarFilmeSemFilme() throws FilmeSemEstoqueException, LocadoraException {
-		Usuario usuario1 = new Usuario("Usuário 2");
+		Usuario usuario1 = umUsuario().agora();
 		
 		exception.expect(LocadoraException.class);
 		exception.expectMessage("Filme vazio");
@@ -145,10 +141,10 @@ public class LocacaoServiceTest {
 	@Test
 	public void deveDarDescontoDe25PorCentoNoTerceiroFilme() throws FilmeSemEstoqueException, LocadoraException {
 		//cenario
-		Usuario usuario = new Usuario("Usuario");
-		Filme f1 = new Filme("Boneco do Mal", 10, 4.0);
-		Filme f2 = new Filme("Chuck", 10, 4.0);
-		Filme f3 = new Filme("Hora do panico", 10, 4.0);
+		Usuario usuario = umUsuario().agora();
+		Filme f1 = umFilme().agora();
+		Filme f2 = umFilme().agora();
+		Filme f3 = umFilme().agora();
 		
 		filmes.add(f1);
 		filmes.add(f2);
@@ -164,11 +160,11 @@ public class LocacaoServiceTest {
 	@Test
 	public void deveDarDescontoDe50PorCentoNoQuartoFilme() throws FilmeSemEstoqueException, LocadoraException {
 		//cenario
-		Usuario usuario = new Usuario("Usuario");
-		Filme f1 = new Filme("Boneco do Mal", 10, 4.0);
-		Filme f2 = new Filme("Chuck", 10, 4.0);
-		Filme f3 = new Filme("Hora do panico", 10, 4.0);
-		Filme f4 = new Filme("Json vs Fred", 10, 4.0);
+		Usuario usuario = umUsuario().agora();
+		Filme f1 = umFilme().agora();
+		Filme f2 = umFilme().agora();
+		Filme f3 = umFilme().agora();
+		Filme f4 = umFilme().agora();
 		
 		filmes.add(f1);
 		filmes.add(f2);
@@ -186,12 +182,12 @@ public class LocacaoServiceTest {
 	@Test
 	public void deveDarDescontoDe75PorCentoNoQuintoFilme() throws FilmeSemEstoqueException, LocadoraException {
 		//cenario
-		Usuario usuario = new Usuario("Usuario");
-		Filme f1 = new Filme("Boneco do Mal", 10, 4.0);
-		Filme f2 = new Filme("Chuck", 10, 4.0);
-		Filme f3 = new Filme("Hora do panico", 10, 4.0);
-		Filme f4 = new Filme("Json vs Fred", 10, 4.0);
-		Filme f5 = new Filme("A entidade 3", 10, 4.0);
+		Usuario usuario = umUsuario().agora();
+		Filme f1 = umFilme().agora();
+		Filme f2 = umFilme().agora();
+		Filme f3 = umFilme().agora();
+		Filme f4 = umFilme().agora();
+		Filme f5 = umFilme().agora();
 		
 		filmes.add(f1);
 		filmes.add(f2);
@@ -209,13 +205,13 @@ public class LocacaoServiceTest {
 	@Test
 	public void deveDarDescontoDe0PorCentoNoSextoFilme() throws FilmeSemEstoqueException, LocadoraException {
 		//cenario
-		Usuario usuario = new Usuario("Usuario");
-		Filme f1 = new Filme("Boneco do Mal", 10, 4.0);
-		Filme f2 = new Filme("Chuck", 10, 4.0);
-		Filme f3 = new Filme("Hora do panico", 10, 4.0);
-		Filme f4 = new Filme("Json vs Fred", 10, 4.0);
-		Filme f5 = new Filme("A entidade 3", 10, 4.0);
-		Filme f6 = new Filme("A morte do demonio", 10, 4.0);
+		Usuario usuario = umUsuario().agora();
+		Filme f1 = umFilme().agora();
+		Filme f2 = umFilme().agora();
+		Filme f3 = umFilme().agora();
+		Filme f4 = umFilme().agora();
+		Filme f5 = umFilme().agora();
+		Filme f6 = umFilme().agora();
 		
 		filmes.add(f1);
 		filmes.add(f2);
@@ -236,8 +232,8 @@ public class LocacaoServiceTest {
 	public void deveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException {
 		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 		
-		Usuario usuario = new Usuario("usuario 1");
-		Filme f1 = new Filme("filme 1", 1, 4.0);
+		Usuario usuario = umUsuario().agora();
+		Filme f1 = umFilme().agora();
 		
 		filmes.add(f1);
 		
