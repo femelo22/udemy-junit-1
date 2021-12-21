@@ -1,6 +1,7 @@
 package br.ce.wcaquino.servicos;
 
 import static br.ce.wcaquino.servicos.matchers.MatchersProprios.caiEm;
+import static br.ce.wcaquino.servicos.matchers.MatchersProprios.ehHojeComDiferencaDeDias;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 import static java.util.Calendar.MONDAY;
@@ -67,6 +68,7 @@ public class LocacaoServiceTest {
 		error.checkThat(locacao.getValor(), is(5.0));
 		error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
 		error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(false));
+		error.checkThat(locacao.getDataRetorno(), ehHojeComDiferencaDeDias(2));
 	}
 	
 	
