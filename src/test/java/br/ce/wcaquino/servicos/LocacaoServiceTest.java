@@ -7,6 +7,7 @@ import static br.ce.wcaquino.servicos.matchers.MatchersProprios.caiEm;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -259,7 +260,7 @@ public class LocacaoServiceTest {
 	}
 	
 	@Test
-	public void naoDeveAlugarFilmeParaUsuarioNegativadoSPC() throws FilmeSemEstoqueException, LocadoraException {
+	public void naoDeveAlugarFilmeParaUsuarioNegativadoSPC() throws FilmeSemEstoqueException {
 		Usuario usuario = umUsuario().agora();
 		Usuario usuario2 = umUsuario().comNome("Luiz").agora();
 		
@@ -269,18 +270,25 @@ public class LocacaoServiceTest {
 		//Alterar o retorno padrao do Mockito
 		when(spc.ehNegativado(usuario)).thenReturn(true);
 		
-		exception.expect(LocadoraException.class);
 		exception.expectMessage("Usuario negativado");
 		
-		service.alugarFilme(usuario2, filmes);
+		try {
+			service.alugarFilme(usuario, filmes);
+			Assert.fail();
+		}catch (LocadoraException e) {
+			assertThat(e.getMessage(), is("Usuario negativado"));
+		}
+		
+		verify(spc).ehNegativado(usuario);
 	}
 	
 	@Test
 	public void deveEnviarEmailParaLocacoesAtrasadas() {
 		//cenario
 		Usuario usuario = umUsuario().agora();
+		Usuario usuario2 = umUsuario().comNome("Fernando").agora();
 		
-		List<Locacao> locacoesPendentes = Arrays.asList(umLocacao().comUsuario(usuario).comDataRetorno(DataUtils.obterDataComDiferencaDias(-2)).agora());
+		List<Locacao> locacoesPendentes = Arrays.asList(umLocacao().comUsuario(usuario).comDataRetorno(DataUtils.obterDataComDiferencaDias(-3)).agora());
 		
 		Mockito.when(dao.obterLocacoesPendentes()).thenReturn(locacoesPendentes);
 		
@@ -288,7 +296,7 @@ public class LocacaoServiceTest {
 		service.notificarAtrasosLocacao();
 		
 		//verificacao
-		Mockito.verify(emailService).notificarAtraso(usuario);
+		verify(emailService).notificarAtraso(usuario);
 	}
 
 }
