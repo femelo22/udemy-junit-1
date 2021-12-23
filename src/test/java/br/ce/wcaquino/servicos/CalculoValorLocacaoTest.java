@@ -28,6 +28,8 @@ public class CalculoValorLocacaoTest {
 	
 	private LocacaoService service;
 	
+	private SPCService spc;
+	
 	/**
 	 * @Parameter = nos permite definir a posição dos parametros que estamos passando para o método 
 	 * que possui o @Parameters
@@ -47,6 +49,8 @@ public class CalculoValorLocacaoTest {
 		service = new LocacaoService();
 		LocacaoDAO dao = Mockito.mock(LocacaoDAO.class);
 		service.setLocacaoDAO(dao);
+		spc = Mockito.mock(SPCService.class);
+		service.setSPCService(spc);
 	}
 	
 	private static Filme f1 = new Filme("Boneco do Mal", 10, 4.0);

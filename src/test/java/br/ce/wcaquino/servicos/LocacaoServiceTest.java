@@ -6,6 +6,7 @@ import static br.ce.wcaquino.servicos.matchers.MatchersProprios.caiEm;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +22,7 @@ import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.util.MockUtil;
 
 import br.ce.wcaquino.daos.LocacaoDAO;
 import br.ce.wcaquino.daos.LocacaoDAOFake;
@@ -36,6 +38,10 @@ public class LocacaoServiceTest {
 	
 	private LocacaoService service;
 	
+	private SPCService spc;
+	
+	private LocacaoDAO dao;
+	
 	private List<Filme> filmes;
 	
 	@Rule
@@ -48,8 +54,10 @@ public class LocacaoServiceTest {
 	public void setup() {
 		service = new LocacaoService();
 		filmes = new ArrayList<>();
-		LocacaoDAO dao = Mockito.mock(LocacaoDAO.class);
+		dao = Mockito.mock(LocacaoDAO.class);
 		service.setLocacaoDAO(dao);
+		spc = Mockito.mock(SPCService.class);
+		service.setSPCService(spc);
 	}
 
 	@Test
@@ -246,6 +254,23 @@ public class LocacaoServiceTest {
 		Locacao retorno = service.alugarFilme(usuario, filmes);
 		
 		assertThat(retorno.getDataRetorno(), caiEm(Calendar.MONDAY));
+	}
+	
+	@Test
+	public void naoDeveAlugarFilmeParaUsuarioNegativadoSPC() throws FilmeSemEstoqueException, LocadoraException {
+		Usuario usuario = umUsuario().agora();
+		Usuario usuario2 = umUsuario().comNome("Luiz").agora();
+		
+		Filme filme = umFilme().agora();
+		filmes.add(filme);
+		
+		//Alterar o retorno padrao do Mockito
+		when(spc.ehNegativado(usuario)).thenReturn(true);
+		
+		exception.expect(LocadoraException.class);
+		exception.expectMessage("Usuario negativado");
+		
+		service.alugarFilme(usuario2, filmes);
 	}
 
 }
