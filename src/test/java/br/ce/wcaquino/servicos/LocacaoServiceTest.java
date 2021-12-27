@@ -288,7 +288,11 @@ public class LocacaoServiceTest {
 		Usuario usuario = umUsuario().agora();
 		Usuario usuario2 = umUsuario().comNome("Fernando").agora();
 		
-		List<Locacao> locacoesPendentes = Arrays.asList(umLocacao().comUsuario(usuario).comDataRetorno(DataUtils.obterDataComDiferencaDias(-3)).agora());
+		List<Locacao> locacoesPendentes = Arrays.asList(
+				umLocacao()
+				.comUsuario(usuario2)
+				.atrasado()
+				.agora());
 		
 		Mockito.when(dao.obterLocacoesPendentes()).thenReturn(locacoesPendentes);
 		
@@ -296,7 +300,7 @@ public class LocacaoServiceTest {
 		service.notificarAtrasosLocacao();
 		
 		//verificacao
-		verify(emailService).notificarAtraso(usuario);
+		verify(emailService).notificarAtraso(usuario2);
 	}
 
 }
