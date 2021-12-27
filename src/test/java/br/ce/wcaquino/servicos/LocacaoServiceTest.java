@@ -7,7 +7,9 @@ import static br.ce.wcaquino.servicos.matchers.MatchersProprios.caiEm;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -285,14 +287,22 @@ public class LocacaoServiceTest {
 	@Test
 	public void deveEnviarEmailParaLocacoesAtrasadas() {
 		//cenario
-		Usuario usuario = umUsuario().agora();
+		Usuario usuario1 = umUsuario().agora();
 		Usuario usuario2 = umUsuario().comNome("Fernando").agora();
+		Usuario usuario3 = umUsuario().comNome("Atrasado").agora();
 		
 		List<Locacao> locacoesPendentes = Arrays.asList(
 				umLocacao()
-				.comUsuario(usuario2)
-				.atrasado()
-				.agora());
+					.comUsuario(usuario1)
+					.atrasado()
+					.agora(),
+				umLocacao()
+					.comUsuario(usuario2)
+					.agora(),
+				umLocacao()
+					.comUsuario(usuario3)
+					.atrasado()
+					.agora());
 		
 		Mockito.when(dao.obterLocacoesPendentes()).thenReturn(locacoesPendentes);
 		
@@ -300,7 +310,11 @@ public class LocacaoServiceTest {
 		service.notificarAtrasosLocacao();
 		
 		//verificacao
-		verify(emailService).notificarAtraso(usuario2);
+		verify(emailService).notificarAtraso(usuario1);
+		verify(emailService).notificarAtraso(usuario3);
+		verify(emailService, never()).notificarAtraso(usuario2);
+		verifyNoMoreInteractions(emailService); //garante que não tera mais envio de email alem do que foi enviado
+		
 	}
 
 }
