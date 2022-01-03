@@ -263,7 +263,7 @@ public class LocacaoServiceTest {
 	}
 	
 	@Test
-	public void naoDeveAlugarFilmeParaUsuarioNegativadoSPC() throws FilmeSemEstoqueException {
+	public void naoDeveAlugarFilmeParaUsuarioNegativadoSPC() throws Exception {
 		Usuario usuario = umUsuario().agora();
 		Usuario usuario2 = umUsuario().comNome("Luiz").agora();
 		
@@ -315,6 +315,23 @@ public class LocacaoServiceTest {
 		verify(emailService).notificarAtraso(usuario3);
 		verify(emailService, never()).notificarAtraso(usuario2);
 		verifyNoMoreInteractions(emailService); //garante que não tera mais envio de email alem do que foi enviado
+	}
+	
+	@Test
+	public void deveTratarErroNoSPC() throws Exception {
+		//cenario
+		Usuario usuario = umUsuario().agora();
+		List<Filme> filmes = Arrays.asList(umFilme().agora());
+		
+		when(spc.ehNegativado(usuario)).thenThrow(new Exception("Falha catastrofica"));
+		
+		//verificacao
+		exception.expect(LocadoraException.class);
+		exception.expectMessage("Problemas com serviço de SPC, tente novamente");
+		
+		//acao
+		service.alugarFilme(usuario, filmes);
+		
 		
 	}
 
