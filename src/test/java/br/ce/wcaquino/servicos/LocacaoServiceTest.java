@@ -25,6 +25,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -333,5 +334,18 @@ public class LocacaoServiceTest {
 		service.alugarFilme(usuario, filmes);
 	}
 
-
+	@Test
+	public void deveProrrogarUmaLocacao() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Locacao locacao = umLocacao().agora();
+		
+		//acao
+		service.prorrogarLocacao(locacao, 3);
+		
+		
+		//verificacao
+		ArgumentCaptor<Locacao> argCaptor = ArgumentCaptor.forClass(Locacao.class);
+		Mockito.verify(dao).salvar(locacao);
+		
+	}
 }
