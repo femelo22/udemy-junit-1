@@ -19,5 +19,9 @@ public class MatchersProprios {
 	public static DataDiferencaDiasMatcher ehHojeComDiferencaDeDias(Integer qtdDias) {
 		return new DataDiferencaDiasMatcher(qtdDias);
 	}
+	
+	public static DataDiferencaDiasMatcher ehHoje() {
+		return new DataDiferencaDiasMatcher(0);
+	}
 
 }

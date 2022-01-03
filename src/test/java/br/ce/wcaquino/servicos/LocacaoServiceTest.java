@@ -4,6 +4,8 @@ import static br.ce.wcaquino.servicos.builders.FilmeBuilder.umFilme;
 import static br.ce.wcaquino.servicos.builders.LocacaoBuilder.umLocacao;
 import static br.ce.wcaquino.servicos.builders.UsuarioBuilder.umUsuario;
 import static br.ce.wcaquino.servicos.matchers.MatchersProprios.caiEm;
+import static br.ce.wcaquino.servicos.matchers.MatchersProprios.ehHoje;
+import static br.ce.wcaquino.servicos.matchers.MatchersProprios.ehHojeComDiferencaDeDias;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -352,6 +354,8 @@ public class LocacaoServiceTest {
 		Mockito.verify(dao).salvar(argCaptor.capture());
 		Locacao locacaoRetornada = argCaptor.getValue();
 		
-		
+		assertThat(locacaoRetornada.getValor(), is(4.0));
+		assertThat(locacaoRetornada.getDataLocacao(), ehHoje());
+		assertThat(locacaoRetornada.getDataRetorno(), ehHojeComDiferencaDeDias(3));
 	}
 }
