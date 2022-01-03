@@ -114,5 +114,15 @@ public class LocacaoService {
 			throw new LocadoraException("Usuario negativado");
 		}
 	}
+	
+	public void prorrogarLocacao(Locacao locacao, int dias) {
+		Locacao novaLocacao = new Locacao();
+		novaLocacao.setUsuario(locacao.getUsuario());
+		novaLocacao.setFilme(locacao.getFilmes());
+		novaLocacao.setValor(locacao.getValor() * dias);
+		novaLocacao.setDataLocacao(new Date());
+		novaLocacao.setDataRetorno(DataUtils.obterDataComDiferencaDias(dias));
+		dao.salvar(novaLocacao);
+	}
 
 }
