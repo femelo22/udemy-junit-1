@@ -356,6 +356,6 @@ public class LocacaoServiceTest {
 		
 		error.checkThat(locacaoRetornada.getValor(), is(4.0));
 		error.checkThat(locacaoRetornada.getDataLocacao(), ehHoje());
-		error.checkThat(locacaoRetornada.getDataRetorno(), ehHojeComDiferencaDeDias(3));
+		error.checkThat(locacaoRetornada.getDataRetorno(), ehHojeComDiferencaDeDias(5));
 	}
 }
