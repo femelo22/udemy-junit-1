@@ -1,14 +1,44 @@
 package br.ce.wcaquino.servicos.service;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import br.ce.wcaquino.servicos.Calculadora;
 
 public class CalculadoraMockTest {
 	
+	@Mock
+	private Calculadora calcMock;
+	
+	@Spy
+	private Calculadora calcSpy;
+	
+	@Before
+	public void setup() {
+		MockitoAnnotations.initMocks(this);
+	}
+	
+	
+	
+	@Test
+	public void deveMostrarDiferencaEntreSpyEMock() {
+		//gravando a expectativa (MOCK)
+		Mockito.when(calcMock.somar(1, 2)).thenReturn(8);
+		
+		//gravando a expectativa (SPY)
+		Mockito.when(calcSpy.somar(1, 2)).thenReturn(8);
+		
+		
+		System.out.println("Mock: " + calcMock.somar(1, 5));
+		
+		System.out.println("Spy: " + calcSpy.somar(1, 5));
+	}
 	
 	@Test
 	public void test() {
@@ -19,7 +49,7 @@ public class CalculadoraMockTest {
 		
 		Assert.assertEquals(5, calc.somar(1, 100000));
 		
-		System.out.println(argCapture.getAllValues());
+		//System.out.println(argCapture.getAllValues());
 		
 	}
 	
