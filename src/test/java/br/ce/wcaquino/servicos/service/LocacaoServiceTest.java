@@ -1,4 +1,4 @@
-package br.ce.wcaquino.servicos;
+package br.ce.wcaquino.servicos.service;
 
 import static br.ce.wcaquino.servicos.builders.FilmeBuilder.umFilme;
 import static br.ce.wcaquino.servicos.builders.LocacaoBuilder.umLocacao;
@@ -39,6 +39,9 @@ import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
+import br.ce.wcaquino.servicos.EmailService;
+import br.ce.wcaquino.servicos.LocacaoService;
+import br.ce.wcaquino.servicos.SPCService;
 import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTest {

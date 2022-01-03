@@ -1,4 +1,4 @@
-package br.ce.wcaquino.servicos;
+package br.ce.wcaquino.servicos.service;
 
 import static br.ce.wcaquino.servicos.builders.UsuarioBuilder.umUsuario;
 import static org.hamcrest.CoreMatchers.is;
@@ -24,6 +24,8 @@ import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
+import br.ce.wcaquino.servicos.LocacaoService;
+import br.ce.wcaquino.servicos.SPCService;
 
 @RunWith(Parameterized.class)
 public class CalculoValorLocacaoTest {

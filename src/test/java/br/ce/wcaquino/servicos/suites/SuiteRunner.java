@@ -4,9 +4,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import br.ce.wcaquino.servicos.CalculoValorLocacaoTest;
-import br.ce.wcaquino.servicos.LocacaoServiceTest;
 import br.ce.wcaquino.servicos.exercicios.CalculadoraTest;
+import br.ce.wcaquino.servicos.service.CalculoValorLocacaoTest;
+import br.ce.wcaquino.servicos.service.LocacaoServiceTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({
