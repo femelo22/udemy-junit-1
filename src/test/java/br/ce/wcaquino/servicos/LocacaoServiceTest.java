@@ -344,8 +344,14 @@ public class LocacaoServiceTest {
 		
 		
 		//verificacao
+		/**
+		 * ArgumentCapture, utilizado para acessar o objeto instancido dentro de uma classe sem retorno.
+		 * Podemos utiliza-lo quando precisamos verificar o valor de um atributo alterado do objeto
+		 */
 		ArgumentCaptor<Locacao> argCaptor = ArgumentCaptor.forClass(Locacao.class);
-		Mockito.verify(dao).salvar(locacao);
+		Mockito.verify(dao).salvar(argCaptor.capture());
+		Locacao locacaoRetornada = argCaptor.getValue();
+		
 		
 	}
 }
