@@ -33,6 +33,12 @@ public class CalculadoraMockTest {
 		
 		//gravando a expectativa (SPY)
 		Mockito.when(calcSpy.somar(1, 2)).thenReturn(8);
+	
+		/**
+		 *  --> thenCallRealMethod(); 
+		 * Podemos utilziar esse método para retornar o valor real apartir de um Mock
+		 * Sem a necessidade de utilizar o Spy
+		 */
 		
 		
 		System.out.println("Mock: " + calcMock.somar(1, 5));
